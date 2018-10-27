@@ -6,17 +6,20 @@ class UploadController < ApplicationController
   end  
 
   def handle_upload
-    Qiniu.establish_connection! access_key: ENV['ACCESS_KEY'],
-                                secret_key: ENV['SECRET_KEY']
+    # byebug
+    Qiniu.establish_connection! access_key: 'bhkw7OOvXafH7d30CS6P53kJB9VMW0_iA6UciXO8',
+                                secret_key: 'Cx7uRCwQiz1VAdXUTLY12x7g4IwujzwGh8f46NVx'
     filePath = params[:img].path
-    #byebug
-    Qiniu::Storage.upload_with_token_2(
+    
+    code, result, response_headers = Qiniu::Storage.upload_with_token_2(
       uptoken,
       filePath,
       img_key,
       nil,
       bucket: bucket
      )
+    #  byebug
+     render json: {"image_url" => "http://p92g4zlfw.bkt.clouddn.com/#{result['key']}"}
   end
 
   private
