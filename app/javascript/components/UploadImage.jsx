@@ -1,9 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Upload from 'antd/lib/upload';
-import Button from 'antd/lib/button';
-import message from 'antd/lib/message';
-import Icon from 'antd/lib/upload';
+import {Upload, Button, message, Icon} from 'antd';
 
 var props = {
   name: 'img',

@@ -6,6 +6,8 @@
     "antd": "^3.10.3",
     "babel-plugin-import": "^1.10.0",
     "babel-preset-react": "^6.24.1",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0" ,
     "prop-types": "^15.6.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
