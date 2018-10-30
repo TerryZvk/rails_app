@@ -10,18 +10,16 @@
     </head>
 
   <body>
-    <div class="bili-header">
-      <div class="nav">
+  <div class="bili-header">
+    <div class="nav">
+      <% if @is_home_page %>
         <div class="bg-img"></div>
         <div class="nav-mask"></div>
-        <%= react_component("Header") %>
-      </div>
-
-      <div class="banner-link">
-      </div>
+      <% end %>
+      
+      <%= react_component("Header") %>
     </div>
-   
-    
+  </div>
     <%= yield %>
   </body>
 </html>

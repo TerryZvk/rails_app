@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   
   get 'upload' => 'upload#upload_images'
   post 'upload' => 'upload#handle_upload'
-end
+  get 'signup' => 'users#new'
+ end

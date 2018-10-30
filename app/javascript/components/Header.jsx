@@ -31,7 +31,7 @@ export default class Header extends React.Component {
             mode="horizontal"
           >
           <Menu.Item key="home">
-                <a href="https://ant.design" target="_blank" rel="noopener noreferrer">主站</a>
+                <a href="/" target="_blank" rel="noopener noreferrer">主站</a>
           </Menu.Item>
           <Menu.Item key="app">
               <a href="https://ant.design" target="_blank" rel="noopener noreferrer">画友</a>
@@ -56,10 +56,10 @@ export default class Header extends React.Component {
             <a href="https://ant.design" target="_blank" rel="noopener noreferrer">会员购</a>
           </Menu.Item>
           <Menu.Item key="download">
-            <a href="https://ant.design" target="_blank" rel="noopener noreferrer">下载APP</a>
+            <a href="/signup" target="_blank" rel="noopener noreferrer">注册</a>
           </Menu.Item>
           <Menu.Item key="login">
-            <a href="https://ant.design" target="_blank" rel="noopener noreferrer">登录</a>
+            <a href="/login" target="_blank" rel="noopener noreferrer">登录</a>
           </Menu.Item>
           <Menu.Item key="history">
             <a href="https://ant.design" target="_blank" rel="noopener noreferrer">历史</a>
