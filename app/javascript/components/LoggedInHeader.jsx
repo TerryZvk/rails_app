@@ -1,10 +1,11 @@
 import React from "react";
 import {Menu, Icon} from 'antd';
+import 'whatwg-fetch';
   
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-export default class Header extends React.Component {
+export default class LoggedInHeader extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -12,6 +13,7 @@ export default class Header extends React.Component {
     }
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
 
   handleClick = (e) => {
@@ -21,11 +23,25 @@ export default class Header extends React.Component {
     });
   }
 
+  handleLogOut = () => {
+    fetch('/logout', {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(() => {
+      console.log('log out!')
+    }).catch((e) => {
+      console.log('failed')
+    })
+  }
+
   render() {
     return (
       <div className="nav-menu">
         <Menu
-            onClick={this.handleClick}
+            onClick={this.handleLogOut}
             selectedKeys={[this.state.current]}
             mode="horizontal"
           >
@@ -47,12 +63,13 @@ export default class Header extends React.Component {
           <Menu.Item key="vip">
             <a href="https://ant.design" target="_blank" rel="noopener noreferrer">会员购</a>
           </Menu.Item>
-          <Menu.Item key="download">
-            <a href="/signup" target="_blank" rel="noopener noreferrer">注册</a>
-          </Menu.Item>
-          <Menu.Item key="login">
-            <a href="/login" target="_blank" rel="noopener noreferrer">登录</a>
-          </Menu.Item>
+          <SubMenu title={<span className="submenu-title-wrapper"><Icon type="setting" />会员</span>}>
+            <MenuItemGroup title="后台">
+              <Menu.Item key="setting:1">账户</Menu.Item>
+              <Menu.Item key="setting:2">设置</Menu.Item>
+              <Menu.Item key="setting:3">登出</Menu.Item>
+            </MenuItemGroup>
+          </SubMenu>
           <Menu.Item key="history">
             <a href="https://ant.design" target="_blank" rel="noopener noreferrer">历史</a>
           </Menu.Item>

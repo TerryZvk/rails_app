@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, Modal, Input, Button } from 'antd';
-import 'whatwg-fetch';
  
 export default class SignupForm extends React.Component {
   constructor(props){
