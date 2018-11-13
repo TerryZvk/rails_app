@@ -21,7 +21,7 @@
       <% end %>
       
       <% if logged_in? %>
-        <%= react_component("LoggedInHeader", prerender: true) %>
+        <%= react_component("LoggedInHeader", user: current_user , prerender: true) %>
         <%= link_to "Log out", logout_path, method: "delete" %>
       <% else %>
         <%= react_component("Header", prerender: true) %>

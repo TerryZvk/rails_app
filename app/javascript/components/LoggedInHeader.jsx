@@ -10,6 +10,7 @@ export default class LoggedInHeader extends React.Component {
     super(props);
     this.state = {
       current: 'mail',
+      profileUrl: '/users/' + props.user.id + '/edit'
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -25,11 +26,7 @@ export default class LoggedInHeader extends React.Component {
 
   handleLogOut = () => {
     fetch('/logout', {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
+      method: 'DELETE'
     }).then(() => {
       console.log('log out!')
     }).catch((e) => {
@@ -65,7 +62,9 @@ export default class LoggedInHeader extends React.Component {
           </Menu.Item>
           <SubMenu title={<span className="submenu-title-wrapper"><Icon type="setting" />会员</span>}>
             <MenuItemGroup title="后台">
-              <Menu.Item key="setting:1">账户</Menu.Item>
+              <Menu.Item key="setting:1" >
+                <a href={this.state.profileUrl} target="_blank" rel="noopener noreferrer">账户</a>
+              </Menu.Item>
               <Menu.Item key="setting:2">设置</Menu.Item>
               <Menu.Item key="setting:3">登出</Menu.Item>
             </MenuItemGroup>
