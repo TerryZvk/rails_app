@@ -1,68 +1,130 @@
 import React from "react";
+import axios from 'axios';
 import { Form, Modal, Input, Button } from 'antd';
  
-export default class SignupForm extends React.Component {
+class RegistrationForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      password: ''
+      confirmDirty: false
     }
   }
 
-  errWaring = (text) => {
-    Modal.warning({
-      title: text
-    })
-  };
-
-  validForm = (state) => {
-    if(state.name == ''){
-      this.errWaring("用户名必须填写");
-      return false;
-    };
-    if(state.email == ''){
-      this.errWaring("邮箱必须填写");
-      return false;
-    };
-    if(state.password.length < 6){
-      this.errWaring("密码必须填写且至少为6位数");
-      return false;
-    }
-
+  handleConfirmBlur = (e) => {
+    const value = e.target.value;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    if(this.validForm(this.state) !== true){
-      return false;
-    };
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        axios.post('/users', {user: values})
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
+    });
   }
 
-  handleName = (e) => {
-    this.setState({name: e.target.value})
+  compareToFirstPassword = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('两次输入的密码不一致!');
+    } else {
+      callback();
+    }
   }
 
-  handleEmail = (e) => {
-    this.setState({email: e.target.value})
+  validateToNextPassword = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['password_confirmation'], { force: true });
+    }
+    callback();
   }
 
-  handlePassword = (e) => {
-    this.setState({password: e.target.value})
-  }
   
   render() {
+    const { getFieldDecorator } = this.props.form;
+    const { autoCompleteResult } = this.state;
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+    };
+
     return (
-     <Form action="/users" method="post" onSubmit={this.handleSubmit} name='user'className="signup-form">
-      <label htmlFor="name">Name</label>
-      <Input type="text" name="name" value={this.state.name} onChange={this.handleName}/>
-      <label htmlFor="email">Email</label>
-      <Input type="text" name="email" value={this.state.email} onChange={this.handleEmail}/>
-      <label htmlFor="password">Password</label>
-      <Input type="text" name="password" value={this.state.password} onChange={this.handlePassword}/>
-      <Button type="primary" className="submit-form" onClick={this.handleSubmit}>提交</Button>
-     </Form>
+      <Form onSubmit={this.handleSubmit}> 
+        <Form.Item
+            {...formItemLayout}
+            label="用户名"
+          >
+          {getFieldDecorator('name', {
+            rules: [{
+              required: true, message: '请输入你的用户名!', whitespace: true 
+            }],
+          })(
+            <Input />
+          )}
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label="邮箱"
+        >
+          {getFieldDecorator('email', {
+            rules: [{
+              type: 'email', message: '不是有效的邮箱格式!',
+            }, {
+              required: true, message: '请输入你的邮箱!',
+            }],
+          })(
+            <Input />
+          )}
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label="密码"
+        >
+          {getFieldDecorator('password', {
+            rules: [{
+              required: true, message: '请输入你的密码!',
+            }, {
+              validator: this.validateToNextPassword,
+            }],
+          })(
+            <Input type="password" onBlur={this.handleConfirmBlur} />
+          )}
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label="确认密码"
+        >
+          {getFieldDecorator('password_confirmation', {
+            rules: [{
+              required: true, message: '请确认你的密码!',
+            }, {
+              validator: this.compareToFirstPassword,
+            }],
+          })(
+            <Input type="password" onBlur={this.handleConfirmBlur} />
+          )}
+        </Form.Item>
+        <Button type="primary" htmlType="submit">注册</Button>
+      </Form>
     );
   }
 }
+
+const SignupForm = Form.create({ name: 'register' })(RegistrationForm);
+
+export default SignupForm
