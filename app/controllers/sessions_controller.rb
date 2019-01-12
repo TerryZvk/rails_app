@@ -4,18 +4,17 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:session][:email].downcase)
+    # byebug
     if user && user.authenticate(params[:session][:password])
       log_in user 
-      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-      redirect_to user
+      params[:session][:remember_me] == true ? remember(user) : forget(user)
+      render :json => user.to_json
     else
-      flash[:danger] = 'Invalid email/password combination'
-      render 'new'
+      render :json => { err: true, message: '密码或邮箱错误！'}
     end  
   end
 
   def destroy
-    log_out 
-    redirect_to root_url
+    log_out
   end
 end

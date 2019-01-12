@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 
 const FormItem = Form.Item;
@@ -8,7 +9,16 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        axios.post('/login', {
+          session: values
+        })
+        .then((res) => {
+          if(res.data.err){
+            alert(res.data.message)
+          }else{
+            window.location.href = '/users/'+ res.data.id;
+          }
+        })
       }
     });
   }
@@ -18,8 +28,8 @@ class NormalLoginForm extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
-          {getFieldDecorator('userName', {
-            rules: [{ required: true, message: '请输入你的用户名!' }],
+          {getFieldDecorator('email', {
+            rules: [{ required: true, message: '请输入你的邮箱!' }],
           })(
             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
           )}
@@ -32,14 +42,14 @@ class NormalLoginForm extends React.Component {
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('remember', {
+          {getFieldDecorator('remember_me', {
             valuePropName: 'checked',
             initialValue: true,
           })(
             <Checkbox>记住我</Checkbox>
           )}
           <a className="login-form-forgot" href="">忘记密码</a>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.handleSubmit}>
             登录
           </Button>
           或者 <a href="/signup">现在去注册!</a>

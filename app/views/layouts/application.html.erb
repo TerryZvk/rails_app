@@ -14,12 +14,7 @@
     <div class="alert alert-<%= message_type %>"><%= message %></div>
   <% end %>
     <div class="nav">
-      <% if logged_in? %>
-        <%= react_component("LoggedInHeader", user: current_user , prerender: true) %>
-        <%= link_to "Log out", logout_path, method: "delete" %>
-      <% else %>
-        <%= react_component("Header", prerender: true) %>
-      <% end %>  
+      <%= react_component("Header", { user: current_user, loggedIn: logged_in? , prerender: true }) %>
     </div>
     <%= yield %>
   </body>
