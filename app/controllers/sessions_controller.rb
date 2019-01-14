@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:session][:email].downcase)
-    # byebug
+    
     if user && user.authenticate(params[:session][:password])
       log_in user 
       params[:session][:remember_me] == true ? remember(user) : forget(user)
@@ -15,6 +15,6 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out
+    log_out if logged_in?
   end
 end
