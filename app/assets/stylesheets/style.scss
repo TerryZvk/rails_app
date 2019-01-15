@@ -1,3 +1,7 @@
+*{
+  padding: 0;
+  margin: 0; 
+}
 .container{
   width: 1160px;
   margin: 0 auto;
@@ -9,7 +13,7 @@
   li {
     overflow: auto;
     padding: 10px 0;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #e2e0e0;
   }
 }
 
@@ -35,5 +39,15 @@
       width: 270px;
       margin-left: 80px;
     }
+  }
+}
+.update-profile{
+  .ant-row{
+    .ant-form-item-label{
+      width: 68px;
+    }
+  }
+  .ant-btn-primary{
+    width: 84%;
   }
 }

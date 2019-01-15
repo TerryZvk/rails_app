@@ -1,5 +1,5 @@
 import React from "react";
-import {Menu, Icon} from 'antd';
+import { Menu, Icon } from 'antd';
 import axios from 'axios';
   
 const SubMenu = Menu.SubMenu;
@@ -27,12 +27,17 @@ export default class Header extends React.Component {
             <Menu.Item key="home">
               <a href="/">主站</a>
             </Menu.Item>
-            <Menu.Item key="user">
-              <a href={'/users/' + this.props.user.id}>{this.props.user.name}</a>
-            </Menu.Item>  
-            <Menu.Item key="logout" onClick={this.handleLogOut}>
-              登出
-            </Menu.Item>  
+            <SubMenu title={this.props.user.name}>
+              <Menu.Item key="关于我">
+                <a href={'/users/' + this.props.user.id}>关于我</a>
+              </Menu.Item>
+              <Menu.Item key="设置">
+                <a href={'/users/' + this.props.user.id + '/edit'}>设置</a>
+              </Menu.Item>
+              <Menu.Item key="登出"　onClick={this.handleLogOut}>
+                登出
+              </Menu.Item>
+            </SubMenu>  
           </Menu> : 
           <Menu mode="horizontal">
             <Menu.Item key="home">

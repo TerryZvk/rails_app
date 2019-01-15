@@ -2,7 +2,7 @@ import React from "react";
 import axios from 'axios';
 import { Form, Modal, Input, Button } from 'antd';
  
-class RegistrationForm extends React.Component {
+class ProfileForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -20,7 +20,7 @@ class RegistrationForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        axios.post('/users', { 
+        axios.patch('/users/' + this.props.user.id, { 
           user: values 
         })
         .then(function (response) {
@@ -79,7 +79,7 @@ class RegistrationForm extends React.Component {
             <Input />
           )}
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           {...formItemLayout}
           label="邮箱"
         >
@@ -120,13 +120,13 @@ class RegistrationForm extends React.Component {
           })(
             <Input type="password" onBlur={this.handleConfirmBlur} />
           )}
-        </Form.Item>
+        </Form.Item> */}
         <Button type="primary" htmlType="submit">提交</Button>
       </Form>
     );
   }
 }
 
-const SignupForm = Form.create({ name: 'register' })(RegistrationForm);
+const Profile = Form.create({ name: 'profile' })(ProfileForm);
 
-export default SignupForm
+export default Profile
